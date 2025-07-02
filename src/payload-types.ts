@@ -7,6 +7,21 @@
  */
 
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Cruces".
+ */
+export type Cruces =
+  | {
+      equipo_a: string;
+      logo_equipo_a: string | Multimedia;
+      puntos_a?: number | null;
+      equipo_b: string;
+      logo_equipo_b: string | Multimedia;
+      puntos_b?: number | null;
+      id?: string | null;
+    }[]
+  | null;
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -63,20 +78,28 @@ export type SupportedTimezones =
 
 export interface Config {
   auth: {
-    users: UserAuthOperations;
+    usuarios: UsuarioAuthOperations;
   };
   blocks: {};
   collections: {
-    users: User;
-    media: Media;
+    usuarios: Usuario;
+    multimedia: Multimedia;
+    subdominios: Subdominio;
+    paginas: Pagina;
+    categorias_posteos: CategoriasPosteo;
+    posteos: Posteo;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    usuarios: UsuariosSelect<false> | UsuariosSelect<true>;
+    multimedia: MultimediaSelect<false> | MultimediaSelect<true>;
+    subdominios: SubdominiosSelect<false> | SubdominiosSelect<true>;
+    paginas: PaginasSelect<false> | PaginasSelect<true>;
+    categorias_posteos: CategoriasPosteosSelect<false> | CategoriasPosteosSelect<true>;
+    posteos: PosteosSelect<false> | PosteosSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -87,15 +110,15 @@ export interface Config {
   globals: {};
   globalsSelect: {};
   locale: null;
-  user: User & {
-    collection: 'users';
+  user: Usuario & {
+    collection: 'usuarios';
   };
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
-export interface UserAuthOperations {
+export interface UsuarioAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -115,10 +138,11 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "usuarios".
  */
-export interface User {
+export interface Usuario {
   id: string;
+  slug: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -139,11 +163,12 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "multimedia".
  */
-export interface Media {
+export interface Multimedia {
   id: string;
   alt: string;
+  caption?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -158,23 +183,286 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subdominios".
+ */
+export interface Subdominio {
+  id: string;
+  /**
+   * Nombre del subdominio
+   */
+  nombre: string;
+  /**
+   * Texto sin espacios. Este sera el identificador de la pagina en la URL
+   */
+  slug: string;
+  /**
+   * Icono del subdominio
+   */
+  logo: string | Multimedia;
+  /**
+   * Favicon del subdominio
+   */
+  favicon: string | Multimedia;
+  navegacion?:
+    | (
+        | Enlace
+        | {
+            menu?:
+              | (
+                  | Enlace
+                  | {
+                      submenu?: Enlace[] | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'submenu';
+                    }
+                )[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'menu';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Enlace".
+ */
+export interface Enlace {
+  url: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'enlace';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "paginas".
+ */
+export interface Pagina {
+  id: string;
+  subdominio: string | Subdominio;
+  /**
+   * Texto sin espacios. Este sera el identificador de la pagina en la URL
+   */
+  slug: string;
+  titulo: string;
+  bloques?: (Eliminatoria | TablaPosiciones | TablaGoleadores | FixtureResultado | Contenido | Sancionado)[] | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Eliminatoria".
+ */
+export interface Eliminatoria {
+  cruces?: Cruces;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eliminatoria';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TablaPosiciones".
+ */
+export interface TablaPosiciones {
+  grupo?: string | null;
+  con_empate?: boolean | null;
+  equipos?:
+    | {
+        partidos_jugados?: number | null;
+        partidos_ganados?: number | null;
+        partidos_empatados?: number | null;
+        partidos_perdidos?: number | null;
+        goles_favor?: number | null;
+        goles_contra?: number | null;
+        puntos?: number | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'equipo';
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tabla_posiciones';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TablaGoleadores".
+ */
+export interface TablaGoleadores {
+  jugadores?:
+    | {
+        equipo: string;
+        fechas?:
+          | {
+              puntos: number;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'jugador';
+      }[]
+    | null;
+  fechas?:
+    | {
+        nombre: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tabla_goleadores';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FixtureResultado".
+ */
+export interface FixtureResultado {
+  fechas?:
+    | {
+        grupo?: string | null;
+        partidos?:
+          | {
+              horario?: string | null;
+              cancha: string;
+              equipo_a: string;
+              logo_equipo_a: string | Multimedia;
+              puntos_a?: number | null;
+              equipo_b?: string | null;
+              logo_equipo_b?: (string | null) | Multimedia;
+              puntos_b?: number | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'fecha';
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'fixture_resultados';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Contenido".
+ */
+export interface Contenido {
+  contenido?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  contenido_html?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contenido';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Sancionado".
+ */
+export interface Sancionado {
+  jugadores?:
+    | {
+        equipo: string;
+        sancion: string;
+        motivo: string;
+        fechas: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'jugador';
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sancionados';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categorias_posteos".
+ */
+export interface CategoriasPosteo {
+  id: string;
+  subdominio: string | Subdominio;
+  nombre: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posteos".
+ */
+export interface Posteo {
+  id: string;
+  subdominio: string | Subdominio;
+  /**
+   * Texto sin espacios. Este sera el identificador de la pagina en la URL
+   */
+  slug: string;
+  titulo: string;
+  descripcion?: string | null;
+  imagen_destacada?: (string | null) | Multimedia;
+  bloques?: (Eliminatoria | TablaPosiciones | TablaGoleadores | FixtureResultado | Contenido | Sancionado)[] | null;
+  autor: string | Usuario;
+  categorias?: (string | CategoriasPosteo)[] | null;
+  es_viejo?: boolean | null;
+  editado?: boolean | null;
+  contenido_html_raw?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'users';
-        value: string | User;
+        relationTo: 'usuarios';
+        value: string | Usuario;
       } | null)
     | ({
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'multimedia';
+        value: string | Multimedia;
+      } | null)
+    | ({
+        relationTo: 'subdominios';
+        value: string | Subdominio;
+      } | null)
+    | ({
+        relationTo: 'paginas';
+        value: string | Pagina;
+      } | null)
+    | ({
+        relationTo: 'categorias_posteos';
+        value: string | CategoriasPosteo;
+      } | null)
+    | ({
+        relationTo: 'posteos';
+        value: string | Posteo;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: 'users';
-    value: string | User;
+    relationTo: 'usuarios';
+    value: string | Usuario;
   };
   updatedAt: string;
   createdAt: string;
@@ -186,8 +474,8 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: 'users';
-    value: string | User;
+    relationTo: 'usuarios';
+    value: string | Usuario;
   };
   key?: string | null;
   value?:
@@ -215,9 +503,10 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "usuarios_select".
  */
-export interface UsersSelect<T extends boolean = true> {
+export interface UsuariosSelect<T extends boolean = true> {
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -237,10 +526,11 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "multimedia_select".
  */
-export interface MediaSelect<T extends boolean = true> {
+export interface MultimediaSelect<T extends boolean = true> {
   alt?: T;
+  caption?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -252,6 +542,259 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subdominios_select".
+ */
+export interface SubdominiosSelect<T extends boolean = true> {
+  nombre?: T;
+  slug?: T;
+  logo?: T;
+  favicon?: T;
+  navegacion?:
+    | T
+    | {
+        enlace?: T | EnlaceSelect<T>;
+        menu?:
+          | T
+          | {
+              menu?:
+                | T
+                | {
+                    enlace?: T | EnlaceSelect<T>;
+                    submenu?:
+                      | T
+                      | {
+                          submenu?:
+                            | T
+                            | {
+                                enlace?: T | EnlaceSelect<T>;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Enlace_select".
+ */
+export interface EnlaceSelect<T extends boolean = true> {
+  url?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "paginas_select".
+ */
+export interface PaginasSelect<T extends boolean = true> {
+  subdominio?: T;
+  slug?: T;
+  titulo?: T;
+  bloques?:
+    | T
+    | {
+        eliminatoria?: T | EliminatoriaSelect<T>;
+        tabla_posiciones?: T | TablaPosicionesSelect<T>;
+        tabla_goleadores?: T | TablaGoleadoresSelect<T>;
+        fixture_resultados?: T | FixtureResultadoSelect<T>;
+        contenido?: T | ContenidoSelect<T>;
+        sancionados?: T | SancionadoSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Eliminatoria_select".
+ */
+export interface EliminatoriaSelect<T extends boolean = true> {
+  cruces?: T | CrucesSelect<T>;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Cruces_select".
+ */
+export interface CrucesSelect<T extends boolean = true> {
+  equipo_a?: T;
+  logo_equipo_a?: T;
+  puntos_a?: T;
+  equipo_b?: T;
+  logo_equipo_b?: T;
+  puntos_b?: T;
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TablaPosiciones_select".
+ */
+export interface TablaPosicionesSelect<T extends boolean = true> {
+  grupo?: T;
+  con_empate?: T;
+  equipos?:
+    | T
+    | {
+        equipo?:
+          | T
+          | {
+              partidos_jugados?: T;
+              partidos_ganados?: T;
+              partidos_empatados?: T;
+              partidos_perdidos?: T;
+              goles_favor?: T;
+              goles_contra?: T;
+              puntos?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TablaGoleadores_select".
+ */
+export interface TablaGoleadoresSelect<T extends boolean = true> {
+  jugadores?:
+    | T
+    | {
+        jugador?:
+          | T
+          | {
+              equipo?: T;
+              fechas?:
+                | T
+                | {
+                    puntos?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  fechas?:
+    | T
+    | {
+        nombre?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FixtureResultado_select".
+ */
+export interface FixtureResultadoSelect<T extends boolean = true> {
+  fechas?:
+    | T
+    | {
+        fecha?:
+          | T
+          | {
+              grupo?: T;
+              partidos?:
+                | T
+                | {
+                    horario?: T;
+                    cancha?: T;
+                    equipo_a?: T;
+                    logo_equipo_a?: T;
+                    puntos_a?: T;
+                    equipo_b?: T;
+                    logo_equipo_b?: T;
+                    puntos_b?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Contenido_select".
+ */
+export interface ContenidoSelect<T extends boolean = true> {
+  contenido?: T;
+  contenido_html?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Sancionado_select".
+ */
+export interface SancionadoSelect<T extends boolean = true> {
+  jugadores?:
+    | T
+    | {
+        jugador?:
+          | T
+          | {
+              equipo?: T;
+              sancion?: T;
+              motivo?: T;
+              fechas?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categorias_posteos_select".
+ */
+export interface CategoriasPosteosSelect<T extends boolean = true> {
+  subdominio?: T;
+  nombre?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posteos_select".
+ */
+export interface PosteosSelect<T extends boolean = true> {
+  subdominio?: T;
+  slug?: T;
+  titulo?: T;
+  descripcion?: T;
+  imagen_destacada?: T;
+  bloques?:
+    | T
+    | {
+        eliminatoria?: T | EliminatoriaSelect<T>;
+        tabla_posiciones?: T | TablaPosicionesSelect<T>;
+        tabla_goleadores?: T | TablaGoleadoresSelect<T>;
+        fixture_resultados?: T | FixtureResultadoSelect<T>;
+        contenido?: T | ContenidoSelect<T>;
+        sancionados?: T | SancionadoSelect<T>;
+      };
+  autor?: T;
+  categorias?: T;
+  es_viejo?: T;
+  editado?: T;
+  contenido_html_raw?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
