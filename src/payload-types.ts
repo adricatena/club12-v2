@@ -368,7 +368,6 @@ export interface Contenido {
     };
     [k: string]: unknown;
   } | null;
-  contenido_html?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'contenido';
@@ -731,7 +730,6 @@ export interface FixtureResultadoSelect<T extends boolean = true> {
  */
 export interface ContenidoSelect<T extends boolean = true> {
   contenido?: T;
-  contenido_html?: T;
   id?: T;
   blockName?: T;
 }
