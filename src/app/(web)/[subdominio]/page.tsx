@@ -1,14 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { basePayload } from '@/lib/payload'
 import Link from 'next/link'
-import type { PropsWithChildren } from 'react'
 
 type Props = {
   params: Promise<{ subdominio: string }>
   searchParams: Promise<{ pagina?: string }>
 }
 
-export default async function SubdomainPage({ params, searchParams }: PropsWithChildren & Props) {
+export default async function SubdomainPage({ params, searchParams }: Props) {
   const { subdominio } = await params
 
   const { pagina } = await searchParams
