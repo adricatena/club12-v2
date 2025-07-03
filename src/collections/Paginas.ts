@@ -8,7 +8,6 @@ import { TablaGoleadores } from '../blocks/tabla-goleadores'
 import { TablaPosiciones } from '../blocks/tabla-posiciones'
 import { Slug } from '../fields/Slug'
 import { Subdominio } from '../fields/Subdominio'
-import { readFromServer } from '../utils/access'
 
 export const Paginas: CollectionConfig = {
   slug: 'paginas',
@@ -19,8 +18,10 @@ export const Paginas: CollectionConfig = {
   admin: {
     useAsTitle: 'titulo',
     defaultColumns: ['titulo', '_status'],
-    preview: (data, { token }) =>
-      `${process.env.NEXT_PUBLIC_WEB_URL}/${(data.subdominio as TSubdominio).slug}/preview/${data.id}?token=${token}`,
+    preview: async (doc) => {
+      const slug = (doc?.subdominio as TSubdominio).slug || 'futbol'
+      return `${process.env.NEXT_PUBLIC_WEB_URL}/${slug}/preview/${doc.id}`
+    },
   },
   versions: {
     drafts: {
@@ -31,7 +32,7 @@ export const Paginas: CollectionConfig = {
     maxPerDoc: 50,
   },
   access: {
-    read: readFromServer,
+    read: () => true,
   },
   fields: [
     Subdominio,

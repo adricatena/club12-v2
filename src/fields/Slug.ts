@@ -7,6 +7,7 @@ export const Slug: Field = {
   required: true,
   unique: true,
   index: true,
+  defaultValue: () => Date.now(),
   admin: {
     description: 'Texto sin espacios. Este sera el identificador de la pagina en la URL',
     placeholder: 'futbol11',

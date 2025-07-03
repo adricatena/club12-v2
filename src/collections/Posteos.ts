@@ -8,7 +8,6 @@ import { TablaGoleadores } from '../blocks/tabla-goleadores'
 import { TablaPosiciones } from '../blocks/tabla-posiciones'
 import { Slug } from '../fields/Slug'
 import { Subdominio } from '../fields/Subdominio'
-import { readFromServer } from '../utils/access'
 
 export const Posteos: CollectionConfig = {
   slug: 'posteos',
@@ -19,8 +18,10 @@ export const Posteos: CollectionConfig = {
   admin: {
     useAsTitle: 'titulo',
     defaultColumns: ['titulo', '_status'],
-    preview: (data, { token }) =>
-      `${process.env.NEXT_PUBLIC_WEB_URL}/${(data.subdominio as TSubdominio).slug}/preview/noticias/${data.id}?token=${token}`,
+    preview: async (doc) => {
+      const slug = (doc?.subdominio as TSubdominio).slug || 'futbol'
+      return `${process.env.NEXT_PUBLIC_WEB_URL}/${slug}/preview/noticias/${doc.id}`
+    },
   },
   versions: {
     drafts: {
@@ -31,7 +32,7 @@ export const Posteos: CollectionConfig = {
     maxPerDoc: 50,
   },
   access: {
-    read: readFromServer,
+    read: () => true,
   },
   fields: [
     Subdominio,

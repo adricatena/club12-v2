@@ -1,7 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { Enlace } from '../blocks/enlace'
 import { Slug } from '../fields/Slug'
-import { readFromServer } from '../utils/access'
 
 export const Subdominios: CollectionConfig = {
   slug: 'subdominios',
@@ -14,7 +13,7 @@ export const Subdominios: CollectionConfig = {
     defaultColumns: ['nombre', 'slug'],
   },
   access: {
-    read: readFromServer,
+    read: () => true,
   },
   fields: [
     {

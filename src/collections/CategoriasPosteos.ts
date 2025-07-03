@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
 import { Subdominio } from '../fields/Subdominio'
-import { readFromServer } from '../utils/access'
 
 export const CategoriasPosteos: CollectionConfig = {
   slug: 'categorias_posteos',
@@ -12,7 +11,7 @@ export const CategoriasPosteos: CollectionConfig = {
     useAsTitle: 'nombre',
   },
   access: {
-    read: readFromServer,
+    read: () => true,
   },
   fields: [
     Subdominio,
