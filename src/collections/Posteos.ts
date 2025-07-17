@@ -1,3 +1,4 @@
+import { NEXT_PUBLIC_WEB_URL } from '@/config'
 import type { Subdominio as TSubdominio } from '@/payload-types'
 import type { CollectionConfig } from 'payload'
 import { Contenido } from '../blocks/contenido'
@@ -20,7 +21,7 @@ export const Posteos: CollectionConfig = {
     defaultColumns: ['titulo', '_status'],
     preview: async (doc) => {
       const slug = (doc?.subdominio as TSubdominio).slug || 'futbol'
-      return `${process.env.NEXT_PUBLIC_WEB_URL}/${slug}/preview/noticias/${doc.id}`
+      return `${NEXT_PUBLIC_WEB_URL}/${slug}/preview/noticias/${doc.id}`
     },
   },
   versions: {

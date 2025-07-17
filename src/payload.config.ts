@@ -15,9 +15,7 @@ import { Posteos } from './collections/Posteos'
 import { Subdominios } from './collections/Subdominios'
 import { Usuarios } from './collections/Usuarios'
 import {
-  ADMIN_URL,
   DATABASE_URI,
-  NEXT_PUBLIC_WEB_URL,
   PAYLOAD_SECRET,
   R2_ACCESS_KEY_ID,
   R2_ACCOUNT_ID,
@@ -82,6 +80,6 @@ export default buildConfig({
       es,
     },
   },
-  cors: [NEXT_PUBLIC_WEB_URL, ADMIN_URL],
-  csrf: [NEXT_PUBLIC_WEB_URL, ADMIN_URL],
+  // cors: [NEXT_PUBLIC_WEB_URL, ADMIN_URL],
+  // csrf: [NEXT_PUBLIC_WEB_URL, ADMIN_URL],
 })
