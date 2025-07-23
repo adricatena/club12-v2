@@ -67,6 +67,11 @@ export const FixtureResultados: Block = {
                   label: 'Puntos A',
                 },
                 {
+                  type: 'number',
+                  name: 'penales_a',
+                  label: 'Penales A',
+                },
+                {
                   type: 'text',
                   name: 'equipo_b',
                   label: 'Equipo B',
@@ -81,6 +86,11 @@ export const FixtureResultados: Block = {
                   type: 'number',
                   name: 'puntos_b',
                   label: 'Puntos B',
+                },
+                {
+                  type: 'number',
+                  name: 'penales_b',
+                  label: 'Penales B',
                 },
               ],
             },

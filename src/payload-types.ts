@@ -15,9 +15,11 @@ export type Cruces =
       equipo_a: string;
       logo_equipo_a: string | Multimedia;
       puntos_a?: number | null;
+      penales_a?: number | null;
       equipo_b: string;
       logo_equipo_b: string | Multimedia;
       puntos_b?: number | null;
+      penales_b?: number | null;
       id?: string | null;
     }[]
   | null;
@@ -333,9 +335,11 @@ export interface FixtureResultado {
               equipo_a: string;
               logo_equipo_a: string | Multimedia;
               puntos_a?: number | null;
+              penales_a?: number | null;
               equipo_b?: string | null;
               logo_equipo_b?: (string | null) | Multimedia;
               puntos_b?: number | null;
+              penales_b?: number | null;
               id?: string | null;
             }[]
           | null;
@@ -629,9 +633,11 @@ export interface CrucesSelect<T extends boolean = true> {
   equipo_a?: T;
   logo_equipo_a?: T;
   puntos_a?: T;
+  penales_a?: T;
   equipo_b?: T;
   logo_equipo_b?: T;
   puntos_b?: T;
+  penales_b?: T;
   id?: T;
 }
 /**
@@ -712,9 +718,11 @@ export interface FixtureResultadoSelect<T extends boolean = true> {
                     equipo_a?: T;
                     logo_equipo_a?: T;
                     puntos_a?: T;
+                    penales_a?: T;
                     equipo_b?: T;
                     logo_equipo_b?: T;
                     puntos_b?: T;
+                    penales_b?: T;
                     id?: T;
                   };
               id?: T;

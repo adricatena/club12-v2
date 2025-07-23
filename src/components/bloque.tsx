@@ -84,6 +84,7 @@ export function Bloque({ bloque }: Props) {
                           withoutBorder
                           nombre={partido.equipo_a}
                           puntos={partido.puntos_a ?? ''}
+                          penales={partido.penales_a ?? null}
                           src={(partido.logo_equipo_a as Multimedia).url!}
                           alt={(partido.logo_equipo_a as Multimedia).alt}
                         />
@@ -94,6 +95,7 @@ export function Bloque({ bloque }: Props) {
                             withoutBorder
                             nombre={partido.equipo_b}
                             puntos={partido.puntos_b ?? ''}
+                            penales={partido.penales_b ?? null}
                             src={(partido.logo_equipo_b as Multimedia)?.url ?? ''}
                             alt={(partido.logo_equipo_b as Multimedia)?.alt}
                           />

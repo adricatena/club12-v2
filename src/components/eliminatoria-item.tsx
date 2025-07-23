@@ -7,9 +7,17 @@ interface Props {
   nombre: string
   puntos: number | string
   withoutBorder?: boolean
+  penales: number | null
 }
 
-export function EliminatoriaItem({ alt, src, nombre, puntos, withoutBorder = false }: Props) {
+export function EliminatoriaItem({
+  alt,
+  src,
+  nombre,
+  puntos,
+  withoutBorder = false,
+  penales,
+}: Props) {
   return (
     <span
       className={twJoin(
@@ -21,6 +29,7 @@ export function EliminatoriaItem({ alt, src, nombre, puntos, withoutBorder = fal
       <img alt={alt} src={src} className="mask mask-parallelogram h-10" />
       <p className="text-xl font-bold italic">{nombre.toUpperCase()}</p>
       <p className="text-end text-xl">{puntos ?? '-'}</p>
+      {penales === null ? null : <p className="text-end text-xl">({penales})</p>}
     </span>
   )
 }

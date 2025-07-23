@@ -22,12 +22,14 @@ export function Cruces({ cruces }: Props) {
                 src={(cruce.logo_equipo_a as Multimedia).url!}
                 nombre={cruce.equipo_a}
                 puntos={cruce.puntos_a ?? 0}
+                penales={cruce.penales_a ?? null}
               />
               <EliminatoriaItem
                 alt={(cruce.logo_equipo_b as Multimedia).alt}
                 src={(cruce.logo_equipo_b as Multimedia).url!}
                 nombre={cruce.equipo_b}
                 puntos={cruce.puntos_b ?? 0}
+                penales={cruce.penales_b ?? null}
               />
             </div>
           )
@@ -45,12 +47,14 @@ export function Cruces({ cruces }: Props) {
                 src={(cruce.logo_equipo_a as Multimedia).url!}
                 nombre={cruce.equipo_a}
                 puntos={cruce.puntos_a ?? 0}
+                penales={cruce.penales_a ?? null}
               />
               <EliminatoriaItem
                 alt={(cruce.logo_equipo_b as Multimedia).alt}
                 src={(cruce.logo_equipo_b as Multimedia).url!}
                 nombre={cruce.equipo_b}
                 puntos={cruce.puntos_b ?? 0}
+                penales={cruce.penales_b ?? null}
               />
             </div>
           )

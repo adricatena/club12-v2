@@ -37,6 +37,12 @@ export const Eliminatoria: Block = {
           required: false,
         },
         {
+          type: 'number',
+          name: 'penales_a',
+          label: 'Penales A',
+          required: false,
+        },
+        {
           type: 'text',
           name: 'equipo_b',
           label: 'Equipo B',
@@ -53,6 +59,12 @@ export const Eliminatoria: Block = {
           type: 'number',
           name: 'puntos_b',
           label: 'Puntos B',
+          required: false,
+        },
+        {
+          type: 'number',
+          name: 'penales_b',
+          label: 'Penales B',
           required: false,
         },
       ],
