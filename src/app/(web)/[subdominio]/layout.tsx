@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const currentSubdominio = subdominios.docs?.find(({ slug }) => slug === subdominio)
 
   return {
-    icons: (currentSubdominio?.favicon as Multimedia).url,
+    icons: (currentSubdominio?.favicon as Multimedia)?.url || undefined,
     title: `Club12 ${currentSubdominio?.nombre}`,
   }
 }
