@@ -23,7 +23,7 @@ export function Header({ subdominio, otrosSubdominios }: Props) {
       <div
         className={twJoin('flex w-full items-center justify-between px-4 md:hidden', HEADER_HEIGHT)}
       >
-        {typeof subdominio.logo === 'string' ? null : (
+        {typeof subdominio?.logo === 'string' ? null : (
           <Link href={`/${subdominio.slug}`}>
             <Image
               alt={subdominio.logo.alt}
