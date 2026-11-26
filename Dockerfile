@@ -24,6 +24,11 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ARG BUILD_MAX_RAM=1536
 ENV NODE_OPTIONS="--no-deprecation --max-old-space-size=${BUILD_MAX_RAM}"
 
+ARG PAYLOAD_SECRET
+ARG DATABASE_URI
+ENV PAYLOAD_SECRET=$PAYLOAD_SECRET
+ENV DATABASE_URI=$DATABASE_URI
+
 # Coolify inyecta PAYLOAD_SECRET, DATABASE_URL y variables NEXT_PUBLIC_* en este RUN
 RUN bun --bun ./node_modules/next/dist/bin/next build
 
