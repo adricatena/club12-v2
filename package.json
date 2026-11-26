@@ -10,13 +10,14 @@
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
-    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "lint": "eslint .",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
-    "ncu": "npx npm-check-updates@latest -i"
+    "ncu": "npx npm-check-updates@latest -i",
+    "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.94.2",
@@ -47,6 +48,7 @@
     "daisyui": "5.8.3",
     "eslint": "10.15.0",
     "eslint-config-next": "16.4.6",
+    "mongodb": "6.20.0",
     "prettier": "3.10.1",
     "prettier-plugin-tailwindcss": "0.8.1",
     "typescript": "7.0.2"

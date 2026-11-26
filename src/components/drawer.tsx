@@ -13,9 +13,9 @@ export function Drawer({ subdominio, otrosSubdominios }: Props) {
     <nav className="drawer-side">
       <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
       <ul className="menu bg-base-200 min-h-full w-80 p-4 pt-20">
-        {subdominio?.navegacion?.map((navegacion) =>
+        {subdominio?.navegacion?.map((navegacion, i) =>
           navegacion.blockType === 'enlace' ? (
-            <li key={navegacion.id}>
+            <li key={`${navegacion.id}-${i}`}>
               <Link
                 href={`/${subdominio.slug}/${navegacion.url.replace('/', '')}`}
                 className="rounded-sm"
@@ -24,13 +24,13 @@ export function Drawer({ subdominio, otrosSubdominios }: Props) {
               </Link>
             </li>
           ) : (
-            <li key={navegacion.id}>
+            <li key={`${navegacion.id}-${i}`}>
               <details open>
                 <summary className="rounded-sm">{navegacion?.blockName?.toUpperCase()}</summary>
                 <ul>
-                  {navegacion.menu?.map((menu) =>
+                  {navegacion.menu?.map((menu, j) =>
                     menu.blockType === 'enlace' ? (
-                      <li key={menu.id}>
+                      <li key={`${menu.id}-${j}`}>
                         <Link
                           href={`/${subdominio.slug}/${menu.url.replace('/', '')}`}
                           className="rounded-sm"
@@ -39,12 +39,12 @@ export function Drawer({ subdominio, otrosSubdominios }: Props) {
                         </Link>
                       </li>
                     ) : (
-                      <li key={menu.id}>
+                      <li key={`${menu.id}-${j}`}>
                         <details open>
                           <summary className="rounded-sm">{menu.blockName?.toUpperCase()}</summary>
                           <ul>
-                            {menu.submenu?.map((submenu) => (
-                              <li key={submenu.id}>
+                            {menu.submenu?.map((submenu, k) => (
+                              <li key={`${submenu.id}-${k}`}>
                                 <Link
                                   href={`/${subdominio.slug}/${submenu.url.replace('/', '')}`}
                                   className="rounded-sm"

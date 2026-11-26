@@ -3,6 +3,7 @@ import { Header } from '@/components/header'
 import { basePayload } from '@/lib/payload'
 import type { Multimedia } from '@/payload-types'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
 
 type Props = {
@@ -31,15 +32,17 @@ export default async function SubdominioLayout({ children, params }: PropsWithCh
   })
 
   const currentSubdominio = subdominios.docs?.find(({ slug }) => slug === subdominio)
-  const otrosSubdominios = subdominios.docs?.filter(({ slug }) => slug !== subdominio)
+  if (!currentSubdominio) notFound()
+
+  const otrosSubdominios = subdominios.docs?.filter(({ slug }) => slug !== subdominio) ?? []
 
   return (
     <>
       <div className="drawer-content flex flex-col">
-        <Header subdominio={currentSubdominio!} otrosSubdominios={otrosSubdominios} />
+        <Header subdominio={currentSubdominio} otrosSubdominios={otrosSubdominios} />
         {children}
       </div>
-      <Drawer subdominio={currentSubdominio!} otrosSubdominios={otrosSubdominios} />
+      <Drawer subdominio={currentSubdominio} otrosSubdominios={otrosSubdominios} />
     </>
   )
 }

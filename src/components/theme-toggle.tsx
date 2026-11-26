@@ -1,15 +1,14 @@
 'use client'
 import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
+
+const emptySubscribe = () => () => {}
 
 export function ThemeToggle() {
-  const [defaultTheme, setDefaultTheme] = useState<string>()
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false)
   const { resolvedTheme, setTheme } = useTheme()
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setDefaultTheme(resolvedTheme), [])
-
-  if (!defaultTheme) return null
+  if (!mounted) return null
 
   return (
     <>

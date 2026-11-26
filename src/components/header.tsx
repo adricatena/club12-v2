@@ -71,24 +71,24 @@ export function Header({ subdominio, otrosSubdominios }: Props) {
             />
           </Link>
         )}
-        {subdominio?.navegacion?.map((navegacion) =>
+        {subdominio?.navegacion?.map((navegacion, i) =>
           navegacion.blockType === 'enlace' ? (
             <Link
-              key={navegacion.id}
+              key={`${navegacion.id}-${i}`}
               href={`/${subdominio.slug}/${navegacion.url.replace('/', '')}`}
               className={LINK_BTN}
             >
               {navegacion?.blockName?.toUpperCase()}
             </Link>
           ) : (
-            <div className="dropdown dropdown-hover" key={navegacion.id}>
-              <div tab-index={0} role="button" className={LINK_BTN}>
+            <div className="dropdown dropdown-hover" key={`${navegacion.id}-${i}`}>
+              <div tabIndex={0} role="button" className={LINK_BTN}>
                 {navegacion?.blockName?.toUpperCase()}
               </div>
-              <ul tab-index={0} className={DD_CONTENT}>
-                {navegacion.menu?.map((menu) =>
+              <ul tabIndex={0} className={DD_CONTENT}>
+                {navegacion.menu?.map((menu, j) =>
                   menu.blockType === 'enlace' ? (
-                    <li className={DD_CONTENT_ITEM} key={menu.id}>
+                    <li className={DD_CONTENT_ITEM} key={`${menu.id}-${j}`}>
                       <Link
                         href={`/${subdominio.slug}/${menu.url.replace('/', '')}`}
                         className={SUBLINK_BTN}
@@ -97,7 +97,7 @@ export function Header({ subdominio, otrosSubdominios }: Props) {
                       </Link>
                     </li>
                   ) : (
-                    <li className={DD_CONTENT_ITEM} key={menu.id}>
+                    <li className={DD_CONTENT_ITEM} key={`${menu.id}-${j}`}>
                       <details className="dropdown dropdown-left">
                         <summary
                           className={twJoin([SUBLINK_BTN, 'grid h-min place-content-center'])}
@@ -105,8 +105,8 @@ export function Header({ subdominio, otrosSubdominios }: Props) {
                           {menu?.blockName?.toUpperCase()}
                         </summary>
                         <ul className={DD_CONTENT}>
-                          {menu.submenu?.map((submenu) => (
-                            <li className={DD_CONTENT_ITEM} key={submenu.id}>
+                          {menu.submenu?.map((submenu, k) => (
+                            <li className={DD_CONTENT_ITEM} key={`${submenu.id}-${k}`}>
                               <Link
                                 href={`/${subdominio.slug}/${submenu.url.replace('/', '')}`}
                                 className={twJoin([SUBLINK_BTN, 'mr-1'])}
