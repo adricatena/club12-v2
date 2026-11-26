@@ -1,5 +1,3 @@
-import { NEXT_PUBLIC_WEB_URL } from '@/config'
-import type { Subdominio as TSubdominio } from '@/payload-types'
 import type { CollectionConfig } from 'payload'
 import { Contenido } from '../blocks/contenido'
 import { Eliminatoria } from '../blocks/eliminatoria'
@@ -19,17 +17,9 @@ export const Paginas: CollectionConfig = {
   admin: {
     useAsTitle: 'titulo',
     defaultColumns: ['titulo', '_status'],
-    preview: async (doc) => {
-      const slug = (doc?.subdominio as TSubdominio).slug || 'futbol'
-      return `${NEXT_PUBLIC_WEB_URL}/${slug}/preview/${doc.id}`
-    },
   },
   versions: {
-    drafts: {
-      autosave: {
-        interval: 100, // We set this interval for optimal live preview
-      },
-    },
+    drafts: true,
     maxPerDoc: 50,
   },
   access: {
@@ -65,3 +55,4 @@ export const Paginas: CollectionConfig = {
     },
   ],
 }
+

@@ -1,5 +1,3 @@
-import { NEXT_PUBLIC_WEB_URL } from '@/config'
-import type { Subdominio as TSubdominio } from '@/payload-types'
 import type { CollectionConfig } from 'payload'
 import { Contenido } from '../blocks/contenido'
 import { Eliminatoria } from '../blocks/eliminatoria'
@@ -19,15 +17,9 @@ export const Posteos: CollectionConfig = {
   admin: {
     useAsTitle: 'titulo',
     defaultColumns: ['titulo', '_status'],
-    preview: async (doc) => {
-      const slug = (doc?.subdominio as TSubdominio).slug || 'futbol'
-      return `${NEXT_PUBLIC_WEB_URL}/${slug}/preview/noticias/${doc.id}`
-    },
   },
   versions: {
-    drafts: {
-      autosave: true,
-    },
+    drafts: true,
     maxPerDoc: 50,
   },
   access: {
